@@ -20,6 +20,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { OrderDetailsSkeleton } from './order-details-skeleton'
+
 export interface OrderDetailsProps {
   orderId: string
   open: boolean
@@ -39,7 +41,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
         <DialogDescription>Detalhes do pedido</DialogDescription>
       </DialogHeader>
 
-      {order && (
+      {order ? (
         <div className="space-y-6">
           <Table>
             <TableBody>
@@ -52,9 +54,7 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
               <TableRow>
                 <TableCell className="text-muted-foreground">Cliente</TableCell>
                 <TableCell className="flex justify-end">
-                  <div className="flex items-center gap-2">
-                    {order.customer.name}
-                  </div>
+                  {order.customer.name}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -62,17 +62,13 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   Telefone
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  <div className="flex items-center gap-2">
-                    {order.customer.phone ?? 'Não informado'}
-                  </div>
+                  {order.customer.phone ?? 'Não informado'}
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell className="text-muted-foreground">Email</TableCell>
                 <TableCell className="flex justify-end">
-                  <div className="flex items-center gap-2">
-                    {order.customer.email}
-                  </div>
+                  {order.customer.email}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -80,12 +76,10 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
                   Realizado há
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  <div className="flex items-center gap-2">
-                    {formatDistanceToNow(order.createdAt, {
-                      locale: ptBR,
-                      addSuffix: true,
-                    })}
-                  </div>
+                  {formatDistanceToNow(order.createdAt, {
+                    locale: ptBR,
+                    addSuffix: true,
+                  })}
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -140,6 +134,8 @@ export function OrderDetails({ orderId, open }: OrderDetailsProps) {
             </TableFooter>
           </Table>
         </div>
+      ) : (
+        <OrderDetailsSkeleton />
       )}
     </DialogContent>
   )
